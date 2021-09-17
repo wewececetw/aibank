@@ -1,0 +1,14 @@
+@charset "UTF-8";
+* {
+  font-family: 'Lato',"微軟正黑體", "Microsoft JhengHei", "Adobe 繁黑體 Std B", "儷黑 Pro"; }
+
+body {
+  background-color: #eeeeee; }
+
+form {
+  margin-top: 150px; }
+  form h4 {
+    text-align: center; }
+  form button {
+    background-color: #394a59 !important;
+    color: #ffffff !important; }

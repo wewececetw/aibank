@@ -1,0 +1,416 @@
+    body {
+        background-color: #fff
+    }
+
+
+    @media (min-width: 992px) {
+        .modal-lg {
+            max-width: 960px;
+        }
+    }
+
+    #pending a {
+        color: #000
+    }
+
+    .lightback {
+        background-color: #000;
+    }
+
+    .lightbox {
+        display: block;
+        max-width: 700px;
+        min-height: 600px;
+        background-color: #fff;
+
+
+
+        padding: 1rem;
+
+
+        margin: auto;
+        position: fixed;
+        right: 0;
+        left: 0;
+        margin: auto;
+
+
+
+
+
+        border-color: transparent;
+        opacity: 0;
+        z-index: -1;
+
+        transition: opacity .5s ease;
+    }
+
+    .lightbox:target {
+        border: 1px solid #e0e0e0;
+        border-color: #CCC;
+        opacity: 1;
+        z-index: 1001;
+        box-shadow: 0 5px 55px rgba(125, 125, 125, 0.5);
+    }
+
+     :target+.mask {
+        display: block;
+        width: 100%;
+
+        /* Point */
+        height: 100vh;
+        background-color: rgba(0, 0, 0, .5);
+
+
+        /* Positioning */
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+    }
+
+
+
+
+
+    .se {
+        display: none;
+    }
+
+    .se2 {
+        width: 100%;
+    }
+
+
+    .page_b {
+        display: none;
+    }
+
+
+    .menu_link {}
+
+
+    .bar100 {
+        width: 100%;
+        float: left;
+        height: 4px;
+    }
+
+    .show2 {
+        background-color: rgba(0, 0, 0, 0.3);
+        padding-top: 100px;
+    }
+
+
+    .modal-lg2 {
+        max-width: 700px;
+    }
+
+
+
+    .modal-content {
+        border-radius: 0
+    }
+
+
+    .modal-col-3 {
+        float: left;
+        width: 30%
+    }
+
+    .modal-col-1 {
+        float: left;
+        width: 9%
+    }
+
+    .modal-col-9 {
+        float: left;
+        width: 70%
+    }
+
+    .modal-col-12 {
+        width: 100%;
+    }
+
+    .modal-col-12:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+    .w70 {
+        float: left;
+        width: 70%;
+    }
+
+
+
+    .w30 {
+        width: 30%;
+        float: left;
+        padding-left: 40px;
+        padding-top: 15px;
+    }
+
+    .w31 {
+        width: 30%;
+        float: left;
+        padding-left: 0px!important;
+        padding-top: 0px!important;
+    }
+
+
+
+
+
+
+    .f20 img {
+        width: 25px
+    }
+
+    .f20 {
+
+        font-size: 16px;
+        font-weight: bold;
+        color: #676767;
+    }
+
+    .pf15 {
+
+        padding-left: 15px;
+    }
+
+
+    .pd40 {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .c67 {
+        color: #676767;
+    }
+
+
+    .f35 {
+
+        font-size: 28px;
+        color: #00c1de;
+        font-family: "Arial";
+    }
+
+
+    .f14 {
+
+        font-size: 14px;
+    }
+
+
+    .f12 {
+        padding-bottom: 10px;
+
+        font-size: 14px;
+        color: #3c3c3c;
+    }
+
+    .f12bb {
+        padding-bottom: 8px;
+        font-size: 14px;
+        color: #3c3c3c;
+        display: block;
+    }
+
+
+    .pf15 {
+        /*     padding-left: 15px;*/
+    }
+
+    .pf12 {
+        padding-left: 12px;
+    }
+
+    .mr5 {
+        margin-right: 5px;
+    }
+
+    .pr5 {
+        padding-right: 3px;
+    }
+
+    .col-padding{
+        padding-top: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #f3f3f3;
+    }
+
+
+
+    .btn16 {
+
+        cursor: pointer;
+        float: left;
+        width: 150px;
+        background: #f6f6f6;
+        display: block;
+
+        line-height: 35px;
+
+        text-align: center;
+        color: #adadad;
+        border: 1px solid #ddd;
+    }
+
+
+    .st1 {
+        display: block;
+        width: 100%;
+        padding-bottom: 20px;
+    }
+
+    .st1:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+    .bar_block {
+        width: 20%;
+        float: left;
+        height: 4px;
+    }
+
+    .point {
+        width: 65px;
+        color: #bdbdbd;
+        font-size: 14px;
+    }
+
+    .btn {
+        border-radius: 0
+    }
+
+    .btn_modal {
+        font-size: 14px;
+        width: 120px;
+    }
+
+
+    .btn00c {
+        background: #00c1de;
+        color: #fff
+    }
+
+
+
+    @media screen and (max-width: 568px) {
+
+
+        :target+.mask {
+            display: block;
+            width: 100%;
+
+            /* Point */
+            height: 100vh;
+            background-color: rgba(0, 0, 0, .5);
+
+            /* Positioning */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+        }
+
+
+        .lightbox {
+            top: 0
+        }
+
+        .w100 {
+            margin: auto
+        }
+
+
+        .modal-col-9 {
+            float: left;
+            width: 100%;
+            padding-left: 15px;
+            padding-right: 15px
+        }
+
+
+        .modal-col-3 {
+            float: left;
+            width: 100%;
+            padding-left: 15px;
+            padding-right: 15px
+        }
+
+
+        .menu_link {
+            display: none;
+        }
+
+
+        .se {
+            display: block;
+        }
+
+
+
+        .show {
+            width: 100%!important;
+            display: block;
+            padding: 0!important;
+            margin: 0!important;
+        }
+        .modal-dialog {
+            width: 100%;
+            margin: 0;
+        }
+
+        .bg_color2:last-child {
+            margin-bottom: 10px;
+            margin-top: 0px;
+        }
+
+        .money_item {
+            width: 100%;
+            padding-top: 10px;
+        }
+        .money_item2 {
+            padding-top: 10px;
+        }
+        .money_item3 {
+            padding-top: 10px;
+        }
+        .money_item4 {
+            padding-top: 10px;
+        }
+        .money_item5 {
+            padding-top: 10px;
+        }
+
+        .page_n {
+            display: none
+        }
+
+        .page_b {
+            display: block;
+            padding-bottom: 20px;
+        }
+
+        .page_ba {
+            padding-left: 15px;
+            padding-top: 15px;
+        }
+
+        .modal-body {
+            width: 100%;
+        }
+        #bxmx {
+            overflow: auto
+        }
+    
+        body.modal-open { 
+            position: fixed; 
+        }
+    }

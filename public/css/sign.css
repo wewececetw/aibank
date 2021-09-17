@@ -1,0 +1,93 @@
+ .bgsign {
+     min-height: 700px;
+ }
+
+
+
+ .sign_img {
+ 
+     background-image: url('../images/sign.jpg');
+ }
+
+ .sign_top a{ color: #000 }
+  .sign_top a:hover{ color: #000 }
+
+ .form_top {
+     margin-top: 200px;
+     border-top: 4px solid #00c1de;
+ }
+
+ .for_sign{ padding-top: 15px; display: block; padding-bottom: 10px; }
+
+ .sign_top {
+     border-bottom: 1px #e8e8e8 solid;
+ }
+
+
+ .px-44{ 
+    padding-top: 40px!important;
+    margin-bottom: 100px;}
+
+    .f14 {font-size: 14px;}
+
+ .sign_form {
+     max-width: 520px;
+  
+     margin: auto;
+
+     background-color: rgba(255, 255, 255, 0.85);
+     box-shadow: 0 6px 45px rgba(185, 185, 185, 0.5);
+ }
+
+ .sign_active {
+       border-bottom: 1px #00c1de solid;
+ }
+
+ .sign1 {
+     display: inline-block;
+     width: 32%;
+     text-align: center;
+     padding-top: 20px;
+     padding-bottom: 20px;
+     font-weight: bold
+ }
+
+ .sign2 {
+     display: inline-block;
+        width: 32%;
+     text-align: center;
+     padding-top: 20px;
+     padding-bottom: 20px;
+       font-weight: bold;
+ }
+
+
+  .sign3 {
+     display: inline-block;
+        width: 32%;
+     text-align: center;
+     padding-top: 20px;
+     padding-bottom: 20px;
+       font-weight: bold;
+ }
+
+
+
+  @media screen and (max-width: 768px) {
+
+
+  	.sign_img {
+    background-size: cover;
+    background-image: url(../images/sign.jpg);
+}
+
+ .bgsign {
+     min-height: auto;
+ }
+
+
+
+
+
+
+  }

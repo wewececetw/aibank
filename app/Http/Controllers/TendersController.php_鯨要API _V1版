@@ -1,0 +1,747 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Exports\UsersExport;
+use App\Imports\UsersImport;
+use App\Order;
+use App\TenderRepayments;
+use App\Tenders;
+use App\User;
+use Carbon\Carbon;
+use DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+
+use App\Mail\SampleMail;
+use Illuminate\Support\Facades\Mail;
+use nusoap_client;
+use App\Exports\FinacialExport;
+
+class TendersController extends Controller
+{
+    public function index(Tenders $tenders)
+    {
+        $datasets = Tenders::with(['tenders_user', 'tenders_claim'])->get();
+        $data['row'] = $tenders;
+        $data['tender_date'] = TenderRepayments::select(DB::raw('DATE_FORMAT(target_repayment_date,"%d") as trd'))->distinct()->get()->toArray();
+        return view('Back_End.tenders.tenders_panel',
+            ['datasets' => $datasets], $data);
+    }
+
+    public function search(Request $req)
+    {
+
+        $search['claim_number'] = $req->all()['claim_number'];
+        $search['claim_certificate_number'] = $req->all()['claim_certificate_number'];
+        $search['tender_document_state'] = $req->all()['tender_document_state'];
+        $search['order_number'] = $req->all()['order_number'];
+        $search['user_name'] = $req->all()['user_name'];
+        $search['member_number'] = $req->all()['member_number'];
+        $search['id_card_number'] = $req->all()['id_card_number'];
+        $search['debtor_transferor'] = $req->all()['debtor_transferor'];
+        $search['paid_at_start'] = $req->all()['paid_at_start'];
+        $search['paid_at_end'] = $req->all()['paid_at_end'];
+        $search['staged_at_start'] = $req->all()['staged_at_start'];
+        $search['staged_at_end'] = $req->all()['staged_at_end'];
+
+        $model = new Tenders;
+
+        $model = $model->with(['tenders_claim' => function ($query) use ($search) {
+            if (isset($search['claim_number'])) {
+                $query = $query->where('claim_number', 'like', '%' . $search['claim_number'] . '%');
+            }
+            if (isset($search['debtor_transferor'])) {
+                $query = $query->where('debtor_transferor', 'like', '%' . $search['debtor_transferor'] . '%');
+            }
+        }]);
+        $model = $model->with(['tenders_user' => function ($query) use ($search) {
+            if (isset($search['user_name'])) {
+                $query = $query->where('user_name', 'like', '%' . $search['user_name'] . '%');
+            }
+            if (isset($search['id_card_number'])) {
+                $query = $query->where('id_card_number', 'like', '%' . $search['id_card_number'] . '%');
+            }
+            if (isset($search['member_number'])) {
+                $query = $query->where('member_number', 'like', '%' . $search['member_number'] . '%');
+            }
+        }]);
+        $model = $model->where('claim_certificate_number', 'like', '%' . $search['claim_certificate_number'] . '%');
+
+        $model = $model->where('tender_document_state', 'like', '%' . $search['tender_document_state'] . '%');
+
+        $model = $model->where('order_number', 'like', '%' . $search['order_number'] . '%');
+
+        if (isset($search['paid_at_start']) && isset($search['paid_at_end'])) {
+            $model = $model->whereBetween('paid_at', [$search['paid_at_start'], $search['paid_at_end']]);
+        }
+        if (isset($search['staged_at_start']) && isset($search['staged_at_end'])) {
+            $model = $model->with(['tenders_claim' => function ($query) use ($search) {
+                $query->whereBetween('staged_at', [$search['staged_at_start'], $search['staged_at_end']]);
+            }]);
+        }
+        // $model = new Tenders;
+        // $needBetween = false;
+        // $relation_claim = false;
+        // $relation_user = false;
+        // $search = [];
+        // // dd($req->all());
+        // foreach ($req->all() as $key => $value) {
+        //     $search[$key] = $value;
+        //     if(isset($value)){
+        //         switch ($key) {
+        //             case 'claim_number':
+        //             case 'debtor_transferor':
+
+        //                 $relation_claim = true;
+        //                 break;
+        //             case 'user_name':
+        //             case 'id_card_number':
+        //             case 'member_number':
+
+        //                 $relation_user = true;
+        //                 break;
+        //             case 'paid_at_start':
+        //             case 'paid_at_end':
+        //             case 'staged_at_start':
+        //             case 'staged_at_end':
+        //                 $needBetween  = true;
+        //                 break;
+
+        //             default:
+        //             $model = $model->where($key, 'like','%'.$value.'%');
+        //                 break;
+        //             }
+        //         if($needBetween){
+        //             $model = $model->whereBetween('paid_at',[ $search['paid_at_start'],$search['paid_at_end']]);
+        //             $model = $model->with(['tenders_claim'=>function($query) use($search){
+        //                 $query->whereBetween('staged_at',[ $search['staged_at_start'],$search['staged_at_end']]);
+        //             }]);
+        //         }
+        //         }
+        //     if($relation_claim){
+        //         $model = $model->with(['tenders_claim'=>function($query) use($search){
+        //         if(isset($value)){
+        //             $query = $query->where($key,'like','%'.$value.'%');
+        //             }
+        //         }
+        //         ]);
+        //     }
+        //     if($relation_user){
+        //         $model = $model->with(['tenders_user'=>function($query) use($search){
+        //         if(isset($value)){
+        //             $query = $query->where($key,'like','%'.$value.'%');
+        //             }
+        //         }
+        //         ]);
+        //     }
+        //     }
+        // $model = $model->orderBy('claim_certificate_number', 'asc');
+
+        $data = $model->get();
+
+        $searchTrig = false;
+        foreach ($search as $v) {
+            if (isset($v)) {
+                $searchTrig = true;
+            }
+        }
+        // dd($data);
+        $res = [];
+        foreach ($data as $v) {
+            $ar = [];
+            $a = isset($v->tenders_user->user_id);
+            $b = isset($v->tenders_claim->claim_id);
+
+            $trig = false;
+
+            if ($a && $b) {
+                $trig = true;
+            } else if ($a && !$b) {
+                $trig = false;
+            } else if (!$a && $b) {
+                $trig = false;
+            }
+            if (!$searchTrig) {
+                $trig = true;
+            }
+
+            if ($trig) {
+                array_push($ar, $v->claim_certificate_number);
+                array_push($ar, (isset($v->tenders_user->member_number)) ? $v->tenders_user->member_number : 0);
+                array_push($ar, (isset($v->tenders_user->user_name)) ? $v->tenders_user->user_name : 0);
+                array_push($ar, $v->order_number);
+                array_push($ar, (isset($v->tenders_claim->claim_number)) ? $v->tenders_claim->claim_number : 0);
+                array_push($ar, $v->tender_document_state);
+                array_push($ar, $v->amount);
+                array_push($ar, (isset($v->tenders_claim->periods)) ? $v->tenders_claim->periods : 0);
+                array_push($ar, (isset($v->tenders_claim->annual_interest_rate)) ? $v->tenders_claim->annual_interest_rate : 0);
+                array_push($ar, (isset($v->tenders_claim->repayment_method)) ? $v->tenders_claim->repayment_method : 0);
+                $detail_btn = '<a href="/admin/tender_detail" class="btn btn-info"><i style="margin-right: 0px;" class="fa fa-fw fa-eye"></i> </a>';
+                array_push($ar, $detail_btn);
+                $repay_btn = '<a href="#" class="btn btn-info">繳款</a>';
+                array_push($ar, $repay_btn);
+                $buyer_btn = '<a href="#" class="btn btn-info">test</a>';
+                array_push($ar, $buyer_btn);
+                array_push($res, $ar);
+
+            }
+        }
+        return response()->json($res);
+
+    }
+    public function tender_sql($name, $item, $tender_id)
+    {
+        $query['total'] = DB::select('
+        SELECT
+            sum(' . $item . ') AS ' . $name . '
+        FROM
+            tender_documents AS td
+        LEFT JOIN
+            tender_repayments AS tr ON td.tender_documents_id = tr.tender_documents_id
+        where
+            td.tender_documents_id = ' . $tender_id . '
+        group by
+            td.tender_documents_id;');
+        $query['already'] = DB::select('
+        SELECT
+            sum(' . $item . ') AS ' . $name . '
+        FROM
+            tender_documents AS td
+        LEFT JOIN
+            tender_repayments AS tr ON td.tender_documents_id = tr.tender_documents_id
+        where
+            td.tender_documents_id = ' . $tender_id . '
+        AND
+            tr.credited_at is not null
+        group by
+            td.tender_documents_id');
+
+        return ($query);
+
+    }
+
+    public function tender_details(Tenders $tenders)
+    {
+
+        $data['row'] = $tenders;
+        $tender_id = $tenders->tender_documents_id;
+        // foreach($tenders->tenders_repayment as $data){
+        //     dd($data);
+        // }
+        // dd($tenders->tenders_repayment);
+
+        $data['return_principal'] = $this->tender_sql('return_principal', 'tr.per_return_principal', $tender_id);
+        $data['return_interest'] = $this->tender_sql('return_interest', 'tr.per_return_interest', $tender_id);
+        $data['management_fee'] = $this->tender_sql('management_fee', 'tr.management_fee', $tender_id);
+        $data['income_amount'] = $this->tender_sql('income_amount', 'tr.per_return_interest-tr.management_fee', $tender_id);
+
+        return view('Back_End.tenders.tenders_detail', $data);
+
+    }
+
+    public function unpaid_export(Request $request)
+    {
+        $model = new Tenders;
+        // $model = $model->where('tender_document_state','=','0')->orWhere('tender_document_state','=','5');
+        $model = $model->whereIn('tender_document_state', ['0', '5'])->whereNotNull('order_id')->orderBy('tender_documents_id', 'asc');
+        $data = $model->get();
+        $tenders_export = [
+            [
+                'Order_id',
+                '標單編號',
+                '物件編號',
+                '得標人',
+                '得標序號',
+                '虛擬帳號',
+                '原始期數',
+                '年化利率',
+                '還款方式',
+                '繳款金額',
+                '繳款日期',
+            ],
+            [
+                'order_id',
+                'tender_documents_id',
+                'claim_number',
+                'user_name',
+                'order_number',
+                'virtual_account',
+                'periods',
+                'annual_interest_rate',
+                'repayment_method',
+                'amount',
+                'paid_at',
+
+            ],
+        ];
+        foreach ($data as $row) {
+            $ar = [
+                (isset($row->order_id)) ? $row->order_id : '',
+                $row->tender_documents_id,
+                (isset($row->tenders_claim->claim_number)) ? $row->tenders_claim->claim_number : 0,
+                (isset($row->tenders_user->user_name)) ? $row->tenders_user->user_name : 0,
+                $row->order_number,
+                (isset($row->tenders_user->virtual_account)) ? (string) $row->tenders_user->virtual_account : '0',
+                (isset($row->tenders_claim->periods)) ? $row->tenders_claim->periods : 0,
+                (isset($row->tenders_claim->annual_interest_rate)) ? $row->tenders_claim->annual_interest_rate : 0,
+                (isset($row->tenders_claim->repayment_method)) ? $row->tenders_claim->repayment_method : 0,
+                (isset($row->amount)) ? $row->amount : 0,
+            ];
+            array_push($tenders_export, $ar);
+        }
+        $now = date('Y-m-d');
+        $myFile = Excel::download(new UsersExport($tenders_export), $now . '_未繳款標單.xlsx');
+        return $myFile;
+    }
+    public function pending_export(Request $req)
+    {
+        $search['target_repayment_date'] = $req->all()['target_repayment_date'];
+        /* ========= 2020-03-27 11:05:38 change by Jason ========= */
+        // $model = new TenderRepayments;
+        // $model = $model->where('target_repayment_date', 'like', '%' . $search['target_repayment_date'] . '%');
+        // $data = $model->get();
+        $data = DB::select("SELECT
+        tr.tender_repayment_id AS tender_repayment_id,
+        c.closed_at AS closed_at,
+        u.user_name AS user_name,
+        u.member_number AS member_number,
+        tr.period_number as period_number,
+        tr.real_return_amount as real_return_amount,
+        bl.bank_branch_code AS bank_branch_code,
+        bl.bank_branch_name AS bank_branch_name,
+        ub.bank_account AS bank_account,
+        tr.target_repayment_date as target_repayment_date,
+        tr.paid_at as paid_at,
+        tr.credited_at as credited_at,
+        tr.invoice_at
+    FROM
+        tender_repayments AS tr
+    LEFT JOIN(
+        SELECT
+            tender_documents_id,
+            claim_id,
+            claim_certificate_number,
+            user_id
+        FROM
+            tender_documents
+    ) AS td
+    ON
+        td.tender_documents_id = tr.tender_documents_id
+    LEFT JOIN(
+        SELECT
+            claim_id,
+            closed_at
+        FROM
+            claims
+    ) AS c
+    ON
+        c.claim_id = td.claim_id
+    LEFT JOIN(
+        SELECT
+            user_id,
+            user_name,
+            member_number
+        FROM
+            users
+    ) AS u
+    ON
+        u.user_id = td.user_id
+    LEFT JOIN user_bank AS ub
+    ON
+        ub.user_bank_id = tr.user_bank_id
+    LEFT JOIN bank_lists AS bl
+    ON
+        bl.bank_id = ub.bank_id
+    WHERE
+        tr.target_repayment_date = '".$search['target_repayment_date']."'");
+
+        $tenderRepayment_export = [
+            ['系統ID',
+                '結標日期',
+                '姓名',
+                '會員編號',
+                '債權憑證號',
+                '期別',
+                '應返還金額',
+                '開戶行',
+                '代號',
+                '帳號',
+                '起息還款日',
+                '入帳日期',
+                '返還日期',
+                '發票開立日期'
+            ],
+            ['tender_repayment_id',
+                'closed_at',
+                'user_name',
+                'member_number',
+                'claim_certificate_number',
+                'period_number',
+                'real_return_amount',
+                'bank_branch_name',
+                'bank_branch_code',
+                'bank_account',
+                'target_repayment_date',
+                'paid_at',
+                'credited_at',
+                'invoice_at'
+            ],
+        ];
+        foreach ($data as $row) {
+            $ar = [$row->tender_repayment_id,
+                (isset($row->closed_at)) ? $row->closed_at : 0,
+                (isset($row->user_name)) ? $row->user_name : 0,
+                (isset($row->member_number)) ? $row->member_number : 0,
+                (isset($row->claim_certificate_number)) ? $row->claim_certificate_number : 0,
+                (string) $row->period_number,
+                $row->real_return_amount];
+            $bank_name = (isset($row->bank_name)) ? $row->bank_name : '';
+            $bank_branch_name = (isset($row->bank_branch_name)) ? $row->bank_branch_name : '';
+
+            $name = $bank_name . '' . $bank_branch_name;
+
+            $bank_branch_code = (isset($row->bank_branch_code)) ? $row->bank_branch_code : '';
+
+            $bank_account = '"'.(string)(isset($row->bank_account)) ? $row->bank_account : '' .'"';
+            // $b = (isset($row->bank_account)) ? $row->bank_account : '';
+            // $bank_account = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\StringHelper::formatNumber($b))
+            // \PhpOffice\PhpSpreadsheet\Cell\DataType::setFormatCode()
+
+            $tender_repayment_date = $row->target_repayment_date;
+
+            array_push($ar, $name);
+            array_push($ar, $bank_branch_code);
+            array_push($ar, $bank_account);
+            array_push($ar, $tender_repayment_date);
+            array_push($tenderRepayment_export, $ar);
+        }
+        // foreach ($data as $row) {
+        //     $ar = [$row->tender_repayment_id,
+        //         (isset($row->repayment_tenders->tenders_claim->closed_at)) ? $row->repayment_tenders->tenders_claim->closed_at : 0,
+        //         (isset($row->repayment_tenders->tenders_user->user_name)) ? $row->repayment_tenders->tenders_user->user_name : 0,
+        //         (isset($row->repayment_tenders->tenders_user->member_number)) ? $row->repayment_tenders->tenders_user->member_number : 0,
+        //         (isset($row->repayment_tenders->claim_certificate_number)) ? $row->repayment_tenders->claim_certificate_number : 0,
+        //         (string) $row->period_number,
+        //         $row->real_return_amount];
+        //     $bank_name = (isset($row->repayment_tenders->tenders_user->user_banklist->bank_name)) ? $row->repayment_tenders->tenders_user->user_banklist->bank_name : '';
+        //     $bank_branch_name = (isset($row->repayment_tenders->tenders_user->user_banklist->bank_branch_name)) ? $row->repayment_tenders->tenders_user->user_banklist->bank_branch_name : '';
+
+        //     $name = $bank_name . '' . $bank_branch_name;
+
+        //     $bank_branch_code = (isset($row->repayment_tenders->tenders_user->user_banklist->bank_branch_code)) ? $row->repayment_tenders->tenders_user->user_banklist->bank_branch_code : '';
+
+        //     $bank_account = (isset($row->repayment_tenders->tenders_user->user_userbank->bank_account)) ? $row->repayment_tenders->tenders_user->user_userbank->bank_account : '';
+
+        //     $tender_repayment_date = $row->target_repayment_date;
+
+        //     array_push($ar, $name);
+        //     array_push($ar, $bank_branch_code);
+        //     array_push($ar, $bank_account);
+        //     array_push($ar, $tender_repayment_date);
+        //     array_push($tenderRepayment_export, $ar);
+        // }
+        $date = date("Y-m-d", strtotime($req->target_repayment_date));
+        $myFile = Excel::download(new UsersExport($tenderRepayment_export), '下載待還款資料(' . $date . ').xlsx');
+        return $myFile;
+    }
+
+    public function paid_import(Request $request)
+    {
+        $fileTypeName = $request->file('select_file')->getClientOriginalExtension();
+        if ($fileTypeName != 'xlsx' && $fileTypeName != 'xls') {
+            return Redirect::back()->withErrors(['您所匯入的檔案格式錯誤']);
+        }
+        $toArray = Excel::toArray(new UsersImport, request()->file('select_file'));
+        $header = $toArray[0][1];
+
+        $orderIdArray = [];
+        $orderIdAmountArray = [];
+        try {
+            foreach ($toArray[0] as $k => $v) {
+                if ($k != 0 && $k != 1) {
+
+                    if (isset($v[0]) && isset($v[10])) {
+                        if (!in_array($v[0], $orderIdArray)) {
+                            //當order_id 不再陣列中
+                            array_push($orderIdArray, $v[0]);
+                            $orderIdAmountArray[$v[0]] = $v[9];
+                        } else {
+                            $orderIdAmountArray[$v[0]] += $v[9];
+                        }
+                    }
+
+                    if ($v[10] != '' && isset($v[10])) {
+                        $tenders = Tenders::find($v[1]);
+                        $tenders->paid_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($v[10]));
+                        $tenders->tender_document_state = 1;
+                        $tenders->updated_at = date('Y-m-d H:i:s');
+                        $tenders->save();
+                    }
+                }
+            }
+            foreach ($orderIdAmountArray as $k => $v) {
+                $order = Order::find($k);
+                $order->actual_amount = $v;
+                $order->updated_at = date('Y-m-d H:i:s');
+                $order->save();
+            }
+            return Redirect::back();
+        } catch (\Throwable $th) {
+            dd($th);
+            return Redirect::back()->withErrors(['您所匯入的檔案內容錯誤']);
+        }
+    }
+    public function repay_import(Request $request)
+    {
+        $fileTypeName = $request->file('select_repayment')->getClientOriginalExtension();
+        if ($fileTypeName != 'xlsx' && $fileTypeName != 'xls') {
+            return Redirect::back()->withErrors(['您所匯入的檔案格式錯誤']);
+        }
+        $toArray = Excel::toArray(new UsersImport, request()->file('select_repayment'));
+        $header = $toArray[0][1];
+        try {
+            $xml_array = [];
+            foreach ($toArray[0] as $k => $v) {
+                if ($k != 0 && $k != 1) {
+                        /* ========= 2020-03-31 14:24:35 change by Jason ========= */
+
+                    if ($v[11] != '' && $v[12] != '' && $v[13] != '' ) {
+
+                        $tenders = TenderRepayments::with('repayment_tenders')->find($v[0]);
+                        $tenders->paid_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($v[11]));
+                        $tenders->credited_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($v[12]));
+                        $tenders->tender_repayment_state = 2;
+                        $tenders->updated_at = date('Y-m-d H:i:s');
+                        $tenders->save();
+                        $user = User::find($tenders->repayment_tenders->user_id);
+                        $xml_temp = '<?xml version="1.0" encoding="UTF-8"?>
+                                    <Invoice XSDVersion="2.8">
+                                        <OrderId>'.$tenders->repayment_tenders->claim_certificate_number.date('Ymd').'</OrderId>
+                                        <OrderDate>'.date('Y/m/d',strtotime($tenders->paid_at)).'</OrderDate>
+                                        <BuyerIdentifier></BuyerIdentifier>
+                                        <BuyerName>'.$user->user_name.'</BuyerName>
+                                        <BuyerEmailAddress>'.$user->email.'</BuyerEmailAddress>
+                                        <BuyerAddress>'.$user->getFullContactAddress().'</BuyerAddress>
+                                        <DonateMark>0</DonateMark>
+                                        <InvoiceType>07</InvoiceType>
+                                        <TaxType>1</TaxType>
+                                        <PayWay>2</PayWay>
+                                        <Details>
+                                            <ProductItem>
+                                                <ProductionCode>'.$tenders->tender_documents_id.'</ProductionCode>
+                                                <Description>手續費</Description>
+                                                <Quantity>1</Quantity>
+                                                <UnitPrice>'.$tenders->management_fee.'</UnitPrice>
+                                            </ProductItem>
+                                        </Details>
+                                    </Invoice>';
+                                $ar = [
+                                    'email' => $user->email,
+                                    'xml' => $xml_temp,
+                                    'claim_certificate_number' => $tenders->repayment_tenders->claim_certificate_number
+                                ];
+                        array_push($xml_array,$ar);
+                    }
+                }
+            }
+            $this->sendInvoice($xml_array);
+            // dd($xml_array);
+            return Redirect::back();
+        } catch (\Throwable $th) {
+            dd($th);
+            return Redirect::back()->withErrors(['您所匯入的檔案內容錯誤']);
+        }
+    }
+
+    /**
+     * 寄發票API (鯨耀)
+     *
+     * @param  mixed $data
+     * @return void
+     */
+    public function sendInvoice($data)
+    {
+        $url = config('app.invoiceUrl');
+        $apiKey = config('app.invoiceApiKey');
+
+        $errorMsg = ['有問題的訂單如下:'];
+        $successMsg = ['成功發票如下:'];
+        foreach ($data as $key => $value) {
+            try {
+                $param = array(
+                    'hastax' => '1',
+                    'rentid' => '54179376',
+                    'source' => $apiKey,
+                    'invoicexml' => $value['xml'],
+                );
+
+                $serverpath = $url;
+                $client = new nusoap_client($serverpath, 'wsdl');
+
+                $err = $client->getError();
+                if ($err){
+                    array_push($errorMsg,$value['claim_certificate_number']."Call 鯨耀發票API失敗A");
+                }else{
+                    $result = $client->call("CreateInvoiceV3", $param);
+                    // dd($result);
+                    if(isset($result['return']) && strlen($result['return']) == 15){
+                        $this->invoiceMailToUser($value['email']);
+                        $invoice = explode(';',$result['return'])[0];
+                        $successMsgText = $value['claim_certificate_number'] . '，發票號碼:'. $invoice;
+                        array_push($successMsg,$successMsgText);
+                    }else{
+                        $errorText = $this->invoiceApiErrorMsg($result['return']);
+                        array_push($errorMsg,$value['claim_certificate_number'].'，'.$errorText);
+                    }
+                }
+            } catch (\Throwable $th) {
+                array_push($errorMsg,$value['claim_certificate_number']."Call 鯨耀發票API失敗");
+            }
+        }
+        $toPPMailMsg = array_merge($successMsg,$errorMsg);
+        $this->invoiceToPPMail($toPPMailMsg);
+    }
+
+    public function invoiceToPPMail($msg)
+    {
+        $title = '豬豬在線電子發票列表';
+        $emails = (new User)->getAllAdminUserEmail();
+        foreach ($emails as $email) {
+            $from = false;
+            Mail::to($email)->send(new SampleMail($msg, $from, $title));
+        }
+    }
+    public function invoiceMailToUser($email)
+    {
+        $from = false;
+        $title = '系統通知';
+        $ctx = ['手續費的發票稍晚會發送至您的電子信箱，如有任何疑問，請聯繫客服專員，我們將竭誠爲您服務'];
+        Mail::to($email)->send(new SampleMail($ctx, $from, $title));
+    }
+    public function invoiceApiErrorMsg($code)
+    {
+        switch ($code) {
+            case "S1":
+                $text = "Error 資料庫發生錯誤";
+                return $text;
+            break;
+            case "S2":
+                $text = "Error 訂單日期超過開立發票日期";
+                return $text;
+            break;
+            case "S3":
+                $text = "Error 未在發票申報期內";
+                return $text;
+            break;
+            case "S4":
+                $text = "Error 未取得發票號碼";
+                return $text;
+            break;
+            case "S5":
+                $text = "Error 發票號碼已使用完畢";
+                return $text;
+            break;
+            case "S6":
+                $text = "Error 超過租賃張數限制";
+                return $text;
+            break;
+            case "S7":
+                $text = "Error 訂單號碼已存在";
+                return $text;
+            break;
+            default:
+                $text = "Error 資料本身有問題";
+                return $text;
+            break;
+                break;
+        }
+    }
+
+    public function paying(Request $request)
+    {
+        $id = $request->id;
+        $number = $request->num;
+
+        $row_data['tender_document_state'] = 1;
+        $row_data['paid_at'] = date('Y-m-d H:i:s');
+        $row_data['updated_at'] = date('Y-m-d H:i:s');
+        DB::table('tender_documents')->where('tender_documents_id', $id)->update($row_data);
+        // $dbGet = DB::table('tender_documents')->where('tender_documents_id',$id)->get('claim_certificate_number');
+        // $return_data['claim_certificate_number'] = get_object_vars($dbGet[0]);
+        // dd($return_data);
+        $return_data['success'] = true;
+
+        return response()->json($return_data);
+    }
+
+    /**
+     * 匯出財務報表
+     *
+     * @param  mixed $req 至少需要 foreign 和 target_repayment_date
+     * @return void
+     */
+    public function finacialExport(Request $req)
+    {
+        try {
+            $reqAll = $req->all();
+
+            if(!isset($reqAll['foreign']) || !isset($reqAll['target_repayment_date'])){
+                throw new \Exception('finacialExportRequestFail');
+            }else{
+                $fileName = ($reqAll['foreign'] == 0)? '財務報表(海內).xlsx':'財務報表(海外).xlsx';
+                return (new FinacialExport($reqAll))->download($fileName);
+            }
+
+        } catch (\Throwable $th) {
+            if($th->getMessage() == 'finacialExportRequestFail'){
+                return redirect()->back()->with('finacialExportRequestFail',true);
+            }else{
+                return redirect()->back()->with('finacialExportError',true);
+            }
+        }
+
+    }
+}
+
+// public function tableGenerator(Tenders $tenders,Request $request)
+// {
+//     $return_data['show'] = [
+//                     'claim_certificate_number',
+//                     'member_number',
+//                     'user_name',
+//                     'order_number',
+//                     'claim_number',
+//                     'tender_document_state',
+//                     'amount',
+//                     'period',
+//                     'annual_interest_rate',
+//                     'repayment_method'
+//                      ];
+//     $filter_query = $request['filter_query']->excepts(['_token']);
+//     Log::debug($filter_query);
+//     $Tender = Tenders::with(['tenders_user','tenders_claim'])->filter($filter_query)->get();
+//     $tenderArray = [];
+//     $columns = $tenders->getTableColumns();
+//     foreach ($Tender as $key => $value) {
+//         $ar = [] ;
+//         foreach($columns as $v){
+//             $ar[$v] = $value[$v];
+//         }
+//         $ar['member_number'] = (isset($value->tenders_user->member_number))?$value->tenders_user->member_number:null;
+//         $ar['user_name'] = (isset($value->tenders_user->user_name))?$value->tenders_user->user_name:null;
+//         $ar['claim_number'] = (isset($value->tenders_claim->claim_number))?$value->tenders_claim->claim_number:null;
+//         $ar['period'] = (isset($value->tenders_claim->period))?$value->tenders_claim->period:null;
+//         $ar['annual_interest_rate'] = (isset($value->tenders_claim->annual_interest_rate))?$value->tenders_claim->annual_interest_rate:null;
+//         $ar['repayment_method'] = (isset($value->tenders_claim->repayment_method))?$value->tenders_claim->repayment_method:null;
+//         array_push($tenderArray,$ar);
+//     }
+
+//     $return_data['dataset'] = $tenderArray;
+//     $return_data['success'] = true;
+
+//     return response()->json($return_data);
+
+// }

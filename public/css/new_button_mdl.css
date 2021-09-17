@@ -1,0 +1,69 @@
+.btn_right_R {
+    width: 220px;
+    float: right;
+}
+.btn_3 {
+    display: block;
+}
+#send_tender:hover {
+    display: block;
+    padding: 10px 40px 10px 40px;
+    color: #404040;
+    border: 1px solid #c2c0c0;
+    cursor: pointer border 1px solid #000;
+    cursor: pointer;
+    background: #f4f4f4;
+}
+#send_tender {
+    display: block;
+    padding: 10px 40px 10px 40px;
+    text-align: center;
+    color: #fff;
+    border: 1px solid #fa8f0b;
+    cursor: pointer border 1px solid #000;
+    cursor: pointer;
+    background: #ffaf14;
+    background: -moz-linear-gradient(left, #ffaf14 0%, #f88301 100%);
+    background: -webkit-linear-gradient(left, #ffaf14 0%, #f88301 100%);
+    background: linear-gradient(to right, #ffaf14 0%, #f88301 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf14', endColorstr='#f88301', GradientType=1);
+}
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.btn_bottom_nomargin{
+    width: 100%;
+}
+.t100{
+    /* max-width: 240px; */
+    float: left;
+}
+@media screen and (max-width: 568px){
+    .btn_right_R {
+        width: 100%;
+        float: initial;
+        text-align: center;
+    }
+    #send_tender{
+        width: 100%;
+    }
+    .t100::after,
+    .mem_btn_R::after,
+    .mem_btn_R::before {
+        content: " ";
+        clear: both;
+        display: block;
+        float: none;
+        margin: 0;
+    }
+}
+@media screen and (max-width: 511px){
+    #send_tender{
+        width: 100%;
+    }
+}

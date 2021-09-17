@@ -1,0 +1,82 @@
+@charset "UTF-8";
+@import "bourbon";
+@import "susy";
+
+
+
+
+$font-family:'Roboto',"微軟正黑體","Microsoft JhengHei", "Adobe 繁黑體 Std B", "儷黑 Pro";
+
+$susy: (
+  columns: 12,
+  gutter-position: inside-static,
+  gutters:1/3
+);
+
+$susy: (
+  columns: 12,
+  gutter-position: inside-static,
+  gutters:1/3
+);
+
+$font_family:"微軟正黑體", "Microsoft JhengHei", "Adobe 繁黑體 Std B", "儷黑 Pro";
+
+
+
+$phone: (
+  'min-width': 650px,
+);
+
+$mid-pad: (
+  'min-width': 768px,
+);
+
+$pad: (
+  'min-width': 1024px,
+);
+
+$desktop: (
+  'min-width': 1140px,
+);
+
+$desktop-min-width: (
+  'min-width': 1170px,
+);
+
+
+$phone-x: (
+  'max-width': 649px,
+);
+
+
+$mid-pad-x: (
+  'max-width': 768px,
+);
+
+$m-pad-x: (
+  'max-width': 880px,
+);
+
+$pad-x: (
+  'max-width': 1172px,
+);
+
+$small_desktop-x: (
+  'max-width': 1024px,
+);
+
+$desktop-x: (
+  'max-width': 1139px,
+);
+
+$desktop-min-width-x: (
+  'max-width': 1300px,
+);
+
+$small_screen: (
+  'max-width': 530px,
+);
+
+$iphone_se: (
+  'max-width': 400px,
+);

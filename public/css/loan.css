@@ -1,0 +1,98 @@
+.loan_banner {
+    width: 100%;
+    background-image: url(../images/loan_banner.jpg);
+    min-height: 600px;
+    background-size: cover;
+    background-position-y: 0px;
+}
+
+
+input{ border-radius:0!important  }
+
+.loan_jpg img {}
+
+.loan_s{ display: none;    margin: auto; }
+
+.loan_jpg {
+    padding-top: 190px;
+}
+
+.container_bg {
+    background-image: url(../images/loan_bannerb.png);
+    background-color: #acc3c9;
+    min-height: 1200px;
+    background-repeat: no-repeat;
+    background-position: bottom;
+        padding-bottom: 50px;
+}
+
+ 
+.b_s{ display: none; color: #565656 }
+
+@media screen and (max-width: 1900px) {
+.loan_banner {
+    width: 100%;
+    background-image: url(../images/loan_banner.jpg);
+    min-height: 600px;
+    background-size: cover;
+    background-position-y: 0px;
+}
+}
+
+
+
+@media screen and (max-width: 850px) {
+
+.modal-body{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 80vh;
+}
+
+body.modal-open { 
+    position: fixed; 
+}
+
+.b_s{ display:block }
+
+
+.loan_b{ display: none }
+.loan_s{ display: block }
+
+
+    .title_loan {
+        font-size: 28px;
+        font-family: "Microsoft JhengHei";
+        padding-top: 50px;
+    }
+
+
+}
+
+
+
+
+@media screen and (max-width: 576px) {
+
+
+  .loan_jpg img {
+    width: 70%;
+}
+
+
+  .loan_jpg {
+    padding-top: 110px;
+}
+
+
+    .loan_banner {
+        width: 100%;
+        background-image: url(../images/loan_banner.jpg);
+        min-height: 600px;
+        background-size: cover;
+        background-position-y: 0px;
+    }
+
+
+    .con50{    padding-top: 0px!important;}
+}

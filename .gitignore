@@ -1,0 +1,16 @@
+/node_modules
+/public/hot
+/public/storage
+/public/uploads*
+/storage/*.key
+/storage/logs*
+/vendor
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+public/js/ckeditor/skins/moono-lisa/readme.html
+public/js/ckeditor/plugins/scayt/CHANGELOG.html

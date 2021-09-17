@@ -1,0 +1,196 @@
+.rwd-table th:last-child,
+.rwd-table td:last-child {
+    color: #000
+}
+
+a {
+    color: #000000;}
+
+    a:hover{color: #000000;}
+
+
+.fcolor a{     color: #ffbb25!important; }
+
+
+
+
+
+.form-group_left{margin-bottom: 1rem;
+    width: 48%;
+    float: left;
+    margin-right: 20px; }
+
+.member_title{border-bottom: 1px solid #ddd;}
+
+.rwd-table th,
+.rwd-table td {
+    color: #000;
+}
+
+
+.page_ba{ display: none; }
+
+.tc a{ color: #000 }
+
+.rwd-table th:nth-child(2),
+.rwd-table td:nth-child(2) {
+    color: #000;
+    text-align: left
+}
+
+
+.conten {
+    min-height: 300px;
+    padding-top: 20px;
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.panel-title a {
+    font-size: 25px;
+    color: #393939;
+}
+
+.pr {
+    padding-bottom: 20px;
+    width: 100%;
+    padding-top: 20px;
+}
+
+.center{ text-align: center!important; }
+
+
+.panel-body {
+    padding-bottom: 20px;
+}
+
+.panel-title {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+   border-bottom: 1px solid #ececec;
+}
+
+
+.panel-body .form-group .col-sm-12 {
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+}
+
+
+
+.panel-body .form-group .col-sm-2 {
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+}
+
+
+
+
+/*news2*/
+
+.news30 {
+    padding-top: 40px;
+}
+
+.newsh450 {
+    height: 140px;
+}
+
+.stitle_1apadd {
+
+    padding-bottom: 30px;
+}
+
+.text_bg5 {
+    width: 100%;
+    /*background-image: url(../images/text4.png);*/
+    background-repeat: no-repeat;
+    background-position: top center;
+}
+
+.text_bg5 {
+    width: 100%;
+    /*background-image: url(../images/text4.png);*/
+    background-repeat: no-repeat;
+    background-position: top center;
+}
+
+.page_n {
+    padding-top: 50px;
+}
+
+.date_news2 {
+    font-size: 15px;
+    color: #cecece;
+    padding-bottom: 6px;
+    padding-top: 28px;
+}
+
+
+/*news3*/
+
+.f28m222 {
+    font-family: "Microsoft JhengHei";
+    font-size: 28px;
+    font-weight: bold;
+    padding-bottom: 12px;
+    border-bottom: dotted 1px #989898;
+    margin-bottom: 20px;
+}
+
+
+.hr_line222 {
+    margin-top: 40px;
+    width: 100%;
+    height: 0;
+    border-style: none;
+    border-bottom: dotted 1px #989898;
+    background: none;
+}
+
+.button_re22 {
+    margin: 50px auto auto;
+    width: 240px;
+    height: 50px;
+    background: #00BCD4;
+    color: #ffff;
+    text-align: center;
+    font-size: 16px;
+    padding: 12px;
+}
+
+
+
+
+@media screen and (max-width: 568px){
+
+    .web-content-content img{
+        width:100% !important ;
+    }
+/*    .panel2{padding-left: 15px!important;
+    padding-right: 15px!important;}
+*/
+
+    .form-group_left {
+ 
+    width: 100%;
+    float: left;
+    margin-right: 20px;
+}
+
+    .page_ba{ display: block; }
+.page_n{ display: none; }
+
+    .page_ba {
+    padding-left: 15px;
+    padding-top: 15px;
+}
+
+
+
+}
+ 
+

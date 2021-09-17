@@ -1,0 +1,568 @@
+@import "reset";
+@import "base";
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: "Lato", sans-serif, "微軟正黑體", "Microsoft JhengHei", "Adobe 繁黑體 Std B", "儷黑 Pro";
+    background-color: #f8f8f8; 
+}
+
+
+#header_block{
+    position: relative;
+    height: 100%;
+    min-height: 766px;
+    background-image: url(../images/header_bg.png);
+    background-size: cover;
+
+    @include susy-breakpoint($pad-x){
+        height: 722px;
+        width: 100%;
+    }
+
+    @include susy-breakpoint($m-pad-x){
+        height: 1000px;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    #header_nav{
+        width: 300px;
+        height: 90px;
+        background-color: #1b26a9;
+        padding-top: 30px;
+        box-sizing: border-box;
+
+        @include susy-breakpoint($pad-x){
+            width: 180px;
+            height: 55px;
+            padding-top: 20px;
+        }
+
+        img{
+            display: block;
+            margin: auto;
+            width: 208px;
+            height: 27px;
+
+            @include susy-breakpoint($pad-x){
+                width: 140px;
+                height: 18px;
+            }
+        }
+        
+    }
+
+    #loan_title{
+        top: 133px;
+        right: 0px;
+        position: absolute;
+        width: 675px;
+        background-color: #1b26a9;
+        padding-bottom: 65px;
+        padding-top: 65px;
+        padding-right: 90px;
+        padding-left: 105px;
+        box-sizing: border-box;
+        text-align: right;
+        color: #ffffff;
+
+        @include susy-breakpoint($pad-x){
+            top: 100px;
+            width: 388px;
+            padding-bottom: 25px;
+            padding-top: 25px;
+            padding-right: 25px;
+            padding-left: 23px;
+        }
+
+        h2{
+            font-size: 48px;
+            padding-bottom: 20px;
+            @include susy-breakpoint($pad-x){
+                font-size: 26px;
+            }
+        }
+
+        h1{
+            font-size: 60px;
+            @include susy-breakpoint($pad-x){
+                font-size: 30px;
+            }
+        }
+    }
+
+    #loan_li{
+            padding-left: 90px;
+            padding-right: 90px;
+            top: 473px;
+            right: 0px;
+            position: absolute;
+            text-align: center;
+
+            @include susy-breakpoint($pad-x){
+                top: 403px;
+            }
+
+            @include susy-breakpoint($m-pad-x){
+                position: relative;
+                top: 240px;
+            }
+
+        li{
+            color: #1b26a9;
+            display: inline-block;
+            width: 265px;
+            height: 265px;
+            border-radius: 100%;
+            background-color: #fff;
+
+            @include susy-breakpoint($pad-x){
+                width: 200px;
+                height: 200px;
+            }
+
+            @include susy-breakpoint($m-pad-x){
+                display: block;
+                margin: auto;
+            }
+
+            
+
+            img{
+                margin-top: 55px;
+                width: 80px;
+
+                @include susy-breakpoint($pad-x){
+                    margin-top: 25px;
+                }
+            }
+
+            h5{
+                margin-top: 13px!important;
+                margin-bottom: 13px!important;
+                font-size: 32px;
+                font-weight: bold;
+
+                @include susy-breakpoint($pad-x){
+                    font-size: 20px;
+                }
+                
+            }
+
+            p{
+                font-size: 24px;
+
+                @include susy-breakpoint($pad-x){
+                    font-size: 18px;
+                }
+            }
+        }
+
+        :nth-child(2){
+            margin: auto 30px;
+
+            @include susy-breakpoint($m-pad-x){
+                display: block;
+                margin: 20px auto;
+            }
+        }
+    }
+
+}
+
+#user_sharing{
+    background-color: #1b26a9;
+    width: 100%;
+    height: 880px;
+    position: relative;
+
+    @include susy-breakpoint($pad-x){
+        height: 1000px;
+    }
+
+    @include susy-breakpoint($phone-x){
+        height: 700px;
+    }
+    
+
+    #img_block{
+        float: right;
+        height: 100%;
+        width: 45%;
+        background-image: url(../images/user_bg.png);
+        background-size: cover;
+    }
+    
+    .line{
+        width: 335px;
+        height: 5px;
+        background-color: #a2ccff;
+        display: inline-block;
+        margin-top: 140px;
+        margin-right: 10px;
+
+        @include susy-breakpoint($pad-x){
+            margin-top: 70px;
+            width: 45px;
+            height: 5px;
+        }
+    }
+
+    h2{
+        display: inline-block;
+        font-size: 40px;
+        color: #ffffff;
+        vertical-align: middle;
+
+        @include susy-breakpoint($pad-x){
+            font-size: 20px;
+        }
+
+    }
+
+    p{
+        color: #ffffff;
+        font-size: 24px;
+        line-height: 35px;
+        margin-left: 350px;
+        margin-top: 15px;
+        white-space: nowrap;
+
+        @include susy-breakpoint($pad-x){
+            font-size: 16px;
+            margin-left: 60px;
+            line-height: 25px;
+        }
+    }
+
+    #user_list{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        text-align: center;
+        margin-top: 52px;
+
+        @include susy-breakpoint($pad-x){
+            margin-top: 35px;
+            width: 600px;
+        }
+
+        @include susy-breakpoint($phone-x){
+            width: 400px;
+        }
+
+
+        li{
+            position: relative;
+            width: 260px;
+            height: 400px;
+            background-image: url(../images/img-person01.png);
+            background-size: cover;
+            display: inline-block;
+            margin-right: 35px;
+            margin-top: 55px;
+            vertical-align: top;
+
+            @include susy-breakpoint($pad-x){
+                width: 240px;
+                height: 340px;
+                margin-right: 10px;
+                margin-top: 0px;
+            }
+
+            @include susy-breakpoint($phone-x){
+                margin-right: 0px;
+            }
+
+            @include susy-breakpoint($phone-x){
+                width: 135px;
+                height: 207px;
+            }
+
+
+            .user_info{
+                color: #1b26a9;
+                font-size: 18px;
+                line-height: 25px;
+                position: absolute;
+                width: 156px;
+                height: 75px;
+                background-color: #fff;
+                top: 285px;
+                left: 10px;
+                padding-top: 10px;
+                box-sizing: border-box;
+
+                @include susy-breakpoint($pad-x){
+                    top: 235px;
+                    font-size: 15px;
+                    
+                }
+
+                @include susy-breakpoint($phone-x){
+                    width: 80px;
+                    height: 40px;
+                    top: 145px;
+                    line-height: 15px;
+                    font-size: 13px;
+                    padding-top: 6px;
+                }
+
+                span:before{
+                    top: 0px;
+                    display: inline-block;
+                    content: '';
+                    width: 7px;
+                    height: 32px;
+                    background-color: #1b26a9;
+                    position: absolute;
+                    left: 12px;
+
+                    @include susy-breakpoint($pad-x){
+                        top: -4px;
+                    }
+
+                    @include susy-breakpoint($phone-x){
+                        width: 4px;
+                        height: 17px;
+                        top: 0px;
+                    }
+                }
+            }
+        }
+
+        :nth-child(2){
+            background-image: url(../images/img-person02.png);
+            margin-top: 0px;
+
+            @include susy-breakpoint($pad-x){
+                margin-right: 0px;
+            }
+        }
+
+        :nth-child(3){
+            background-image: url(../images/img-person03.png);
+
+            @include susy-breakpoint($pad-x){
+                margin-top: 28px;
+            }
+        }
+
+        :nth-child(4){
+            background-image: url(../images/img-person04.png);
+            margin-top: 0px;
+            margin-right: 0px;
+
+            @include susy-breakpoint($pad-x){
+                margin-top: 28px;
+            }
+        }
+
+    }
+
+
+}
+
+
+#apply_block{
+    color: #101662;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    background-image: url(../images/application_bg.png);
+    background-size: cover;
+
+    @include susy-breakpoint($small_desktop-x){
+        
+    }
+
+    h2{
+        font-size: 40px;
+        text-align: center;
+
+        @include susy-breakpoint($mid-pad-x){
+            font-size: 26px;
+        }
+    }
+
+    #apply_list{
+        display: block;
+        margin: auto;
+        width: 835px;
+        margin-top: 50px;
+        position: relative;
+
+        @include susy-breakpoint($small_desktop-x){
+            width: 100%;
+            padding-left: 50px;
+            padding-right: 50px;
+            box-sizing: border-box;
+        }
+
+
+        li{
+            position: relative;
+            margin-top: 30px;
+            width: 100%;
+            background-color: #ffffff;
+            height: 125px;
+            box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+            font-size: 20px;
+            line-height: 20px;
+
+            @include susy-breakpoint($small_desktop-x){
+                text-align: center;
+                height: auto;
+                padding-bottom: 10px;
+                box-sizing: border-box;
+            }
+
+            .number_block{
+                position: absolute;
+                top: 0;
+                display: inline-block;
+                height: 100%;
+                width: 125px;
+                background-color: #101662;
+                font-size: 40px;
+                color: #ffffff;
+                text-align: center;
+                padding-top: 50px;
+                box-sizing: border-box;
+
+                @include susy-breakpoint($small_desktop-x){
+                    left: 0px;
+                    width: 100px;
+                    height: 100px;
+                    padding-top: 42px;
+                }
+
+                @include susy-breakpoint($phone-x){
+                    width: 60px;
+                    height: 60px;
+                    font-size: 20px;
+                    padding-top: 20px;
+                }
+            }
+
+            .apply_img{
+                display: inline-block;
+                margin-left: 180px;
+                text-align: center;
+                padding-top: 20px;
+                box-sizing: border-box;
+                width: 85px;
+
+                @include susy-breakpoint($small_desktop-x){
+                    display: block;
+                    margin:  20px auto 0px auto;
+                }
+
+                img{
+                    height: 55px;
+                    margin-bottom: 10px;
+                }
+            }
+
+            p{
+                display: inline-block;
+                vertical-align: top;
+                margin-top: 50px;
+                margin-left: 55px;
+                padding: 0px 15px;
+
+                @include susy-breakpoint($small_desktop-x){
+                    display: block;
+                    line-height: 30px;
+                    margin-left: 0px;
+
+                }
+
+                @include susy-breakpoint($phone-x){
+                    margin-top: 10px;
+                }
+
+            }
+
+        }
+
+
+    }
+
+    a{
+        text-decoration: none;
+        padding-top: 20px;
+        box-sizing: border-box;
+        display: block;
+        margin:auto;
+        margin-top: 50px;
+        width: 200px;
+        height: 60px;
+        background-color: #1b26a9;
+        text-align: center;
+        box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+        font-size: 20px;
+        color: #ffffff;
+
+        @include susy-breakpoint($small_desktop-x){
+            margin-bottom: 10px;
+        }
+    }
+
+}
+
+footer{
+    text-align: center;
+    width: 100%;
+    padding-top: 55px;
+    padding-bottom: 55px;
+    background-color: #101662;
+
+    @include susy-breakpoint($mid-pad-x){
+        padding-top: 38px;
+        padding-bottom: 38px;
+
+    }
+
+    img{
+        width: 40px;
+        height: auto;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        vertical-align: top;
+        margin-top: 21px;
+
+        @include susy-breakpoint($mid-pad-x){
+            display: inline-block;
+            border-right: none;
+            padding-right: 0px;
+
+        }
+    }
+
+    p{
+        margin-left: 25px;
+        text-align: left;
+        padding-left: 25px;
+        font-size: 14px;
+        display: inline-block;
+        color: #ffffff;
+        line-height: 28px;
+        border-left: solid 1px #ffffff;
+        
+        @include susy-breakpoint($mid-pad-x){
+            padding-left: 15px;
+            display: inline-block!important;
+            border-left: none;
+            font-size: 12px;
+            display: block;
+            width: 185px;
+            margin: auto;
+            font-weight: lighter;
+
+        }
+    }
+}
+

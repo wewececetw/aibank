@@ -1,0 +1,63 @@
+
+ .average_block {
+   height: 4px;
+     width: 20%;
+     float: left;
+ }
+
+ .w70 .modal-col-3{ display: none; }
+  .w70 .modal-col-9{ width: 100%!important; }
+
+ .form-control{ padding: 5px; }
+
+.bar_block {
+    width: 20%;
+    float: left;
+    height: auto!important;
+}
+
+ .st2{    width: 100%;
+    min-height: 100px;
+    margin-bottom: 20px;
+    display: block;
+     }
+
+.p25{ padding-top: 25px; }
+.second_bar{ padding-top: 0px!important }
+ .h40{    height: 4px;line-height: 30px; }
+
+ .l35{ line-height: 30px; }
+
+ .right8{float: right; width: 10%;}
+  .left8{float: left; width: 10%;}
+
+ .average_area:after{ content: ''; display: block; clear: both }
+
+ 
+
+
+ @media screen and (max-width: 568px) {
+
+     .st2 {
+    width: 100%;
+    min-height: 100px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    display: block;
+}
+
+.left8 {
+    
+    width: 20%;
+}
+
+
+.right8 {
+    
+    width: 20%;
+}
+
+
+
+
+ }

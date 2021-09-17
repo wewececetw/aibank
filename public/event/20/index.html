@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tw" data-livestyle-extension="available">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="shortcut icon" href="/images/favicon.ico">
+
+        <title>豬豬在線</title>
+
+        <style>
+            body{
+                margin:0;
+                background-color:#000;
+            }
+            .a{
+                width: 815px;
+                margin:0 auto;
+                display:none;
+            }
+            .aw{ display:block;}
+            .b{
+                width: 207px;
+                height: 45px;
+                cursor: pointer;
+                background-image:url(p20_w_b.png);
+                background-size:100% 100%;
+                background-position:center center;
+                background-repeat:no-repeat;
+                margin:0 auto;
+                position: relative;
+                top: -100px;
+            }
+            @media screen and (max-width: 960px){
+                .a{
+                    width:100vw;
+                    max-width:600px;
+                    background-repeat:no-repeat;
+                }
+                .aw{ display:none;}
+                .am{ display:block;}
+                .b{
+                    width: 152px;
+                    height: 32px;
+                    background-image:url(p20_m_b.png);
+                    top: -50px;
+                }
+            }
+        </style>
+<img src="p20_w.png" class="a aw">
+<img src="p20_m.png" class="a am">
+<a href="/"><div class="b"></div></a>

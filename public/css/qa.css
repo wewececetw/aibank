@@ -1,0 +1,222 @@
+ .sub_nav {
+     height: 60px;
+     border-bottom: 1px solid #585858;
+     line-height: 58px;
+ }
+
+ .sub_nav li:last-child {
+     margin-right: 0px;
+ }
+
+
+ #sub-nav {
+     position: relative;
+ }
+
+ .sub_nav ul {}
+
+ .sub_nav ul li {
+     display: inline-block;
+     margin-right: 20px;
+ }
+
+
+ .sub_nav ul li a {
+     display: block;
+     font-size: 14px;
+     color: #fff;
+     opacity: 0.8;
+     line-height: 53px;
+ }
+
+ 
+ .sub_nav ul {
+     max-width: 650px;
+     margin: auto;
+ }
+
+
+ .sub_nav {
+     background: #424242
+ }
+
+
+
+
+.qalink {
+    width: 100%
+}
+
+.text_bg8 {
+    background-image: url('../images/text8.png');
+    width: 241px;
+    height: 132px;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+
+
+
+
+.to20:last-child{ margin-bottom: 80px; }
+.qa_title {
+    font-size: 28px;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+    padding-top: 40px;
+}
+
+
+.to20 {
+    margin-top: 40px;
+}
+
+.bgbg {
+  
+    min-height: 50px;
+}
+
+.tbg {
+        color: #000!important;
+    display: block;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    padding-left: 20px;
+    font-weight: bold;
+    font-size: 25px;
+    padding-right: 20px;
+}
+
+.btn-link:hover {
+    text-decoration: none;
+    color: #000
+}
+
+.btn:hover {
+    text-decoration: none;
+}
+
+.btn-link {
+        font-weight: bold;
+    color: #4e4e4e;
+    text-decoration: none;
+}
+
+.btn-link:focus,
+.btn-link.focus {
+    text-decoration: none;
+}
+
+.card {
+      border-radius: 0;
+    border: 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.card-header {
+    border-bottom: 0;
+}
+
+#accordion {
+
+    
+  
+
+    width: 100%
+}
+
+.card-header {
+    padding: 5px 2px;
+    background-color: #f1f1f1;
+}
+
+.banner-list {
+    height: 450px!important;
+}
+
+.banner-list li .animate-box .t-d {
+    top: 160px
+}
+
+.banner-list li {
+    height: 450px!important;
+}
+
+#banner-box {
+    margin: 0px auto;
+    height: 450px!important;
+    overflow: hidden;
+    position: relative;
+    padding-top: -40px;
+}
+
+.card-body {
+  border-top: 1px solid #ededed;
+    font-size: 14px;
+    line-height: 25px;
+       color: #656565;
+  
+}
+.card{ background-color: #f1f1f1; }
+
+.qa_banner {
+    width: 100%;
+
+    min-height: 600px;
+    background-size: cover;
+}
+
+
+.container_bg {
+
+        background-color: #f1f1f1;
+
+    min-height: 1200px;
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+
+.collapse {
+    width: 100%
+}
+
+
+@media screen and (max-width: 1900px) {
+    .qa_banner {
+        width: 100%;
+        background-image: url(../images/loan_banner.jpg);
+        min-height: 600px;
+        background-size: cover;
+        background-position-y: 0px;
+    }
+}
+
+
+
+@media screen and (max-width: 850px) {}
+
+
+
+
+@media screen and (max-width: 576px) {
+
+  #sub-nav{ display: none }
+
+
+    .qa_banner {
+        width: 100%;
+        background-image: url(../images/loan_banner.jpg);
+        min-height: 600px;
+        background-size: cover;
+        background-position-y: 0px;
+    }
+
+
+    .con50 {
+        padding-top: 0px!important;
+    }
+}

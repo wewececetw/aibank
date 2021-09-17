@@ -1,0 +1,57 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <h1 id="quicktable">quicktable</h1>
+<p><a href="https://travis-ci.org/ufdada/quicktable"><img src="https://travis-ci.org/ufdada/quicktable.svg?branch=master" alt="Build Status"></a>
+<a href="https://david-dm.org/ufdada/quicktable#info=devDependencies"><img src="https://david-dm.org/ufdada/quicktable/dev-status.svg" alt="devDependency Status"></a></p>
+<p>###A quicktable plugin for ckeditor 4</p>
+<p>This plugin adds a quicktable feature to the existing table plugin.</p>
+<p>The original code was submitted by <a href="https://github.com/danyaPostfactum">danyaPostfactum</a> as a pull request for the table plugin.
+I just extracted the code and made a seperate plugin out of it and added some options to it (see sample in plugin directory)</p>
+<p><strong><em>The original table plugin is required for this to work!</em></strong></p>
+<p>####Building:
+This requires <strong>node.js</strong> and <strong>npm</strong> to be installed.</p>
+<p>Then open the directory with the <em>git-shell</em> and type <code>npm install</code> to install the required packages.</p>
+<p>After that you can execute grunt with the following options:</p>
+<ol>
+<li><code>grunt test</code><ul>
+<li>Linting the js and html files (check for syntax errors etc.). See <a href="https://raw.githubusercontent.com/ufdada/quicktable/master/.jshintrc">JS Hint Configuration File</a> for options <strong><em>(default)</em></strong></li>
+</ul>
+</li>
+<li><code>grunt build</code><ul>
+<li><code>grunt test</code> and compressing the plugin into a zip file. The zip file is located in the <em>release</em> directory.</li>
+</ul>
+</li>
+<li><code>grunt build-only</code><ul>
+<li>Just generating the zip file without linting and markdown compile <em>(not recommended)</em></li>
+</ul>
+</li>
+</ol>
+<p>####Installation:
+Just copy the whole directory (quicktable) in the plugins directory</p>
+<p>####Configuration:</p>
+<pre><code class="lang-javascript">    CKEDITOR.replace( &#39;editor1&#39;, {
+        qtRows: 20, // Count of rows in the quicktable (default: 8)
+        qtColumns: 20, // Count of columns in the quicktable (default: 10)
+        qtBorder: &#39;1&#39;, // Border of the inserted table (default: &#39;1&#39;)
+        qtWidth: &#39;90%&#39;, // Width of the inserted table (default: &#39;500px&#39;)
+        qtStyle: { &#39;border-collapse&#39; : &#39;collapse&#39; }, // Content of the style-attribute of the inserted table (default: null)
+        qtClass: &#39;test&#39;, // Class of the inserted table (default: &#39;&#39;)
+        qtCellPadding: &#39;0&#39;, // Cell padding of the inserted table (default: &#39;1&#39;)
+        qtCellSpacing: &#39;0&#39;, // Cell spacing of the inserted table (default: &#39;1&#39;)
+        qtPreviewBorder: &#39;4px double black&#39;, // Border of the preview table (default: &#39;1px solid #aaa&#39;)
+        qtPreviewSize: &#39;4px&#39;, // Cell size of the preview table (default: &#39;14px&#39;)
+        qtPreviewBackground: &#39;#c8def4&#39; // Cell background of the preview table on hover (default: &#39;#e5e5e5&#39;)
+    });
+</code></pre>
+<p>####Known Issues:</p>
+<ul>
+<li>Some missing translations</li>
+</ul>
+<p>For more Information see original post <a href="https://github.com/ckeditor/ckeditor-dev/pull/92">here</a></p>
+
+      </body>
+    </html>
